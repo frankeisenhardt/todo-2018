@@ -1,0 +1,124 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: todo-api
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: todo-api
+        tier: backend
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - todo-api
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: todo-api
+        image: REGISTRY/todo-api
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: CLOUDANT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: binding-SVCNAME
+              key: binding
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: todo-api
+spec:
+  selector:
+    app: todo-api
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: todo-nginx
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: todo-nginx
+        tier: web
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - todo-nginx
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: todo-nginx
+        image: REGISTRY/todo-nginx
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: COSURI
+          value: "S3URI"
+        - name: INGRESSPATH
+          value: "todo-web"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: todo-nginx
+spec:
+  selector:
+    app: todo-nginx
+    tier: web
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: todo-api
+  annotations:
+   ingress.bluemix.net/redirect-to-https: "True"
+   ingress.bluemix.net/rewrite-path: "serviceName=todo-api rewrite=/api;serviceName=todo-nginx rewrite=/todo-web/;"
+spec:
+  tls:
+  - hosts:
+    - INGRESS_SUBDOMAIN
+    secretName: INGRESS_SECRET
+  rules:
+  - host: INGRESS_SUBDOMAIN
+    http:
+      paths:
+      - path: /mytodo/api
+        backend:
+          serviceName: todo-api
+          servicePort: 80
+      - path: /mytodo/
+        backend:
+          serviceName: todo-nginx
+          servicePort: 8080
