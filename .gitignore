@@ -1,5 +1,4 @@
 /env.local
-/env.local.sample
 /todo-api/.env
 /todo-api/bin/**
 /todo-api/obj/**
