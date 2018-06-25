@@ -24,20 +24,34 @@ git clone
 cp env.local.sample env.local
 ```
 4. adjust settings in env.local to match your COS and Kubernetes Settings
-
-4. Sync static webcontent to your bucket
+5. Sync static webcontent to your bucket
 ```shell
 ./01_s3sync.sh
 ```
-execute 02_buildimages.sh this will build the Docker image and push to IBM Cloud Container Registry Service
-execute 03_deploy.sh this will generate a deploy2kube.yaml
-kubect create -f deploy2kube.yaml
-curl -I http://YOURWORKERNODEIP:31200/index.html output will contain X-Cache: MISS
-run again curl -I http://YOURWORKERNODEIP:31200/index.html output will contain X-Cache: HIT
-
-
-TODO:
-
-Build Helmchart
-Document example
+6. Build and push the Docker images for the ASP.NET Core and NGINX Service to the IBM Cloud Container Registry
+```shell
+./02_buildimages.sh
+```
+7. Create a Lite Plan Cloudant NoSQL Db via the ibmcloud cli
+```shell
+./03_createdb.sh
+```
+8. bind the cloudant credentials as kubernetes secrets in the cluster
+```shell
+./04_servicebind.sh
+```
+9. generate deploy2kube.yaml from template (please review the generated file)
+```shell
+./05_deploy.sh
+```
+10. deploy to kubernetes
+```shell
+kubectl create -f deploy2kube.yaml
+```
+11. Review the deployed items
+```shell
+kubectl describe ingress todo-app
+```
+12. Open the application in the Browser based on the output from the todo-app ingress information
+YOURCLUSTERSUBDOMAIN.DOMAIN/mytodo/index.html
 
