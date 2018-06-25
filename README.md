@@ -55,4 +55,4 @@ kubectl describe ingress todo-app
 12. Open the application in the Browser based on the output from the todo-app ingress information
 https://YOURCLUSTERSUBDOMAIN.DOMAIN/mytodo/index.html
 
-
+![alt text](doc/screenshot.png "Description goes here")
