@@ -1,6 +1,6 @@
 #!/bin/sh
 # source env
-source ./env.sample
+source ./env.local
 # check if binding exists
 bind=$(bx cs cluster-services $cluster_name | grep $cloudant_svc_name)
 echo $bind

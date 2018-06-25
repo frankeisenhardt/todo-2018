@@ -1,6 +1,6 @@
 #!/bin/sh
 # source env
-source ./env.sample
+source ./env.local
 bx target --cf -o $cf_org -s $cf_space
 # check if service already exists
 svc=$(bx cf services | grep $cloudant_svc_name)

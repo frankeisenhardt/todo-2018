@@ -23,7 +23,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: todo-api
-        image: REGISTRY/todo-api
+        image: @REGISTRY@/todo-api
         imagePullPolicy: Always
         resources:
           requests:
@@ -33,7 +33,7 @@ spec:
         - name: CLOUDANT_SECRET
           valueFrom:
             secretKeyRef:
-              name: binding-SVCNAME
+              name: binding-@SVCNAME@
               key: binding
 ---
 kind: Service
@@ -73,17 +73,25 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: todo-nginx
-        image: REGISTRY/todo-nginx
+        image: @REGISTRY@/todo-nginx
         imagePullPolicy: Always
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
         env:
-        - name: COSURI
-          value: "S3URI"
-        - name: INGRESSPATH
-          value: "todo-web"
+        - name:   S3_ACCESS_KEY
+          value:  @S3_ACCESS_KEY@
+        - name:   S3_SECRET_KEY
+          value:  @S3_SECRET_KEY@
+        - name:   S3_BUCKET
+          value:  @S3_BUCKET@
+        - name:   COS_ENDPOINT
+          value:  @COS_ENDPOINT@
+        - name:   COS_URI
+          value:  @COS_URI@
+        - name:   NGINX_LOCATION
+          value:  @NGINX_LOCATION@
 ---
 kind: Service
 apiVersion: v1
@@ -101,17 +109,17 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: todo-api
+  name: todo-app
   annotations:
    ingress.bluemix.net/redirect-to-https: "True"
-   ingress.bluemix.net/rewrite-path: "serviceName=todo-api rewrite=/api;serviceName=todo-nginx rewrite=/todo-web/;"
+   ingress.bluemix.net/rewrite-path: "serviceName=todo-api rewrite=/api;serviceName=todo-nginx rewrite=/;"
 spec:
   tls:
   - hosts:
-    - INGRESS_SUBDOMAIN
-    secretName: INGRESS_SECRET
+    - @INGRESS_SUBDOMAIN@
+    secretName: @INGRESS_SECRET@
   rules:
-  - host: INGRESS_SUBDOMAIN
+  - host: @INGRESS_SUBDOMAIN@
     http:
       paths:
       - path: /mytodo/api
