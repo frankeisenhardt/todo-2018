@@ -17,7 +17,7 @@ This is a small todo application with the following components:
 ## Installation on IBM Cloud Kuberntes Service
 1. clone this repo
 ```shell
-git clone 
+git clone https://github.com/cloud-dach/todo-2018.git
 ```
 2. create environment source file
 ```shell
@@ -53,5 +53,6 @@ kubectl create -f deploy2kube.yaml
 kubectl describe ingress todo-app
 ```
 12. Open the application in the Browser based on the output from the todo-app ingress information
-YOURCLUSTERSUBDOMAIN.DOMAIN/mytodo/index.html
+https://YOURCLUSTERSUBDOMAIN.DOMAIN/mytodo/index.html
+
 
