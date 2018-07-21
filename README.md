@@ -11,7 +11,7 @@ This is a small todo application with the following components:
 
 1. The user sends a request to the public endpoint application which is represented by an Ingress application load balancer that load balances incoming network traffic across app pods in the cluster. 
 2. The loadbalancer forwards to one of the available Pods of the deployed Services.
-3. They NGINX/OpenResty Pods accessing the Cloud Object Storage bucket via HMAC Authorization and caching the webcontent.
+3. The NGINX/OpenResty Pods accessing the Cloud Object Storage bucket via HMAC Authorization and caching the webcontent.
 4. The ASP.NET Core 2.1 todo-api provides a REST interface for CRUD operations of TODO items and is accessing the Cloudant NoSQL DB.
 
 
