@@ -13,5 +13,3 @@ else
 fi
 echo "Binding"
 bx cs cluster-services $cluster_name | grep $cloudant_svc_name
-echo "Secret"
-kubectl get secret binding-$cloudant_svc_name --namespace=$cluster_namespace -o json
