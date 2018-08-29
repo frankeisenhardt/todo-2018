@@ -25,6 +25,7 @@ This is a small todo application with the following components:
 1. clone this repo
 ```shell
 git clone https://github.com/cloud-dach/todo-2018.git
+cd todo2018
 git submodule init
 git submodule update
 ```
