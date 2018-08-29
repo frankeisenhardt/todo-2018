@@ -21,10 +21,12 @@ This is a small todo application with the following components:
 * IBM Cloud Object Storage Instance with bucket and HMAC credentials https://console.bluemix.net/docs/services/cloud-object-storage/hmac/credentials.html#using-hmac-credentials
 * s3cmd installed, separate configuration not needed, everything needed will be passed by 01_s3sync.sh script http://s3tools.org/s3cmd
 
-## Installation on IBM Cloud Kuberntes Service
+## Installation on IBM Cloud Kubernetes Service
 1. clone this repo
 ```shell
 git clone https://github.com/cloud-dach/todo-2018.git
+git submodule init
+git submodule update
 ```
 2. create environment source file
 ```shell
