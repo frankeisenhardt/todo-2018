@@ -11,7 +11,7 @@ This is a small todo application with the following components:
 
 1. The user sends a request to the public endpoint application which is represented by an Ingress application load balancer that load balances incoming network traffic across app pods in the cluster. 
 2. The loadbalancer forwards to one of the available Pods of the deployed Services.
-3. They NGINX/OpenResty Pods accessing the Cloud Object Storage bucket via HMAC Authorization and caching the webcontent.
+3. The NGINX/OpenResty Pods accessing the Cloud Object Storage bucket via HMAC Authorization and caching the webcontent.
 4. The ASP.NET Core 2.1 todo-api provides a REST interface for CRUD operations of TODO items and is accessing the Cloudant NoSQL DB.
 
 
@@ -21,10 +21,13 @@ This is a small todo application with the following components:
 * IBM Cloud Object Storage Instance with bucket and HMAC credentials https://console.bluemix.net/docs/services/cloud-object-storage/hmac/credentials.html#using-hmac-credentials
 * s3cmd installed, separate configuration not needed, everything needed will be passed by 01_s3sync.sh script http://s3tools.org/s3cmd
 
-## Installation on IBM Cloud Kuberntes Service
+## Installation on IBM Cloud Kubernetes Service
 1. clone this repo
 ```shell
 git clone https://github.com/cloud-dach/todo-2018.git
+cd todo2018
+git submodule init
+git submodule update
 ```
 2. create environment source file
 ```shell
