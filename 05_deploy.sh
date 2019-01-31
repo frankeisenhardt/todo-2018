@@ -13,3 +13,4 @@ sed -i '' "s,@COS_URI@,${bucket_url},g" deploy2kube.yaml
 sed -i '' "s,@NGINX_LOCATION@,"/",g" deploy2kube.yaml
 sed -i '' "s,@INGRESS_SUBDOMAIN@,${ingress_subdomain},g" deploy2kube.yaml
 sed -i '' "s,@INGRESS_SECRET@,${ingress_secret},g" deploy2kube.yaml
+kubectl create -f deploy2kube.yaml
