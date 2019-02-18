@@ -11,3 +11,9 @@ echo ${namespace}
 image2=${namespace}/todo-nginx
 docker build -t $image2 ./openresty-cos/docker
 docker push $image2
+
+echo "Build s3cmd Helper"
+echo ${namespace}
+image3=${namespace}/s3cmd
+docker build -t $image3 ./s3cmd
+docker push $image3
