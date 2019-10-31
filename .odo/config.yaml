@@ -1,0 +1,15 @@
+kind: LocalConfig
+apiversion: odo.openshift.io/v1alpha1
+ComponentSettings:
+  Type: nodejs:latest
+  SourceLocation: https://github.com/frankeisenhardt/todo-2018
+  Ref: HEAD
+  SourceType: git
+  Ports:
+  - 8080/TCP
+  Application: vsc-test
+  Project: franks-project
+  Name: todo2018
+  Url:
+  - Name: vsc-test
+    Port: 8080
